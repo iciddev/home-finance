@@ -65,3 +65,4 @@ The frontend will be available at `http://localhost:3000`
 - `POST /api/transactions` - Add a new transaction
 - `DELETE /api/transactions/:id` - Delete a transaction
 - `GET /api/summary` - Get financial summary
+# home-finance
