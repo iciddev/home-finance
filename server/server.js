@@ -1,8 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
 
 const app = express();
+
+// Swagger UI endpoint
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 const PORT = process.env.PORT || 60001;
 
 app.use(cors());
@@ -26,6 +32,21 @@ const db = new sqlite3.Database('./finance.db', (err) => {
   )`);
 });
 
+/**
+ * @openapi
+ * /api/transactions:
+ *   get:
+ *     summary: Get all transactions
+ *     responses:
+ *       200:
+ *         description: List of transactions
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Transaction'
+ */
 // GET all transactions
 app.get('/api/transactions', (req, res) => {
   db.all('SELECT * FROM transactions ORDER BY date DESC', [], (err, rows) => {
@@ -34,6 +55,25 @@ app.get('/api/transactions', (req, res) => {
   });
 });
 
+/**
+ * @openapi
+ * /api/transactions:
+ *   post:
+ *     summary: Add a new transaction
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TransactionInput'
+ *     responses:
+ *       201:
+ *         description: Transaction created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Transaction'
+ */
 // POST add transaction
 app.post('/api/transactions', (req, res) => {
   const { description, amount, type, category } = req.body;
@@ -53,6 +93,31 @@ app.post('/api/transactions', (req, res) => {
   );
 });
 
+/**
+ * @openapi
+ * /api/transactions/{id}:
+ *   put:
+ *     summary: Update a transaction
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/TransactionInput'
+ *     responses:
+ *       200:
+ *         description: Transaction updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Transaction'
+ */
 // UPDATE transaction
 app.put('/api/transactions/:id', (req, res) => {
   console.log('PUT /api/transactions/:id called', req.params.id, req.body);
@@ -74,6 +139,28 @@ app.put('/api/transactions/:id', (req, res) => {
   );
 });
 
+/**
+ * @openapi
+ * /api/transactions/{id}:
+ *   delete:
+ *     summary: Delete a transaction
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Transaction deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 deleted:
+ *                   type: integer
+ */
 // DELETE transaction
 app.delete('/api/transactions/:id', (req, res) => {
   db.run('DELETE FROM transactions WHERE id = ?', [req.params.id], function (err) {
@@ -82,6 +169,26 @@ app.delete('/api/transactions/:id', (req, res) => {
   });
 });
 
+/**
+ * @openapi
+ * /api/summary:
+ *   get:
+ *     summary: Get financial summary
+ *     responses:
+ *       200:
+ *         description: Summary object
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalIncome:
+ *                   type: number
+ *                 totalExpenses:
+ *                   type: number
+ *                 balance:
+ *                   type: number
+ */
 // GET summary
 app.get('/api/summary', (req, res) => {
   db.get(
@@ -136,6 +243,40 @@ process.on('SIGINT', () => {
   });
 });
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Transaction:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         description:
+ *           type: string
+ *         amount:
+ *           type: number
+ *         type:
+ *           type: string
+ *           enum: [income, expense]
+ *         category:
+ *           type: string
+ *         date:
+ *           type: string
+ *           format: date-time
+ *     TransactionInput:
+ *       type: object
+ *       properties:
+ *         description:
+ *           type: string
+ *         amount:
+ *           type: number
+ *         type:
+ *           type: string
+ *           enum: [income, expense]
+ *         category:
+ *           type: string
+ */
 // API Routes
 // Get all transactions
 app.get('/api/transactions', (req, res) => {
