@@ -42,28 +42,28 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions, onDelet
 
 
   return (
-    <Paper elevation={2}>
+    <Paper elevation={2} sx={{ borderRadius: 8, boxShadow: '0 8px 32px 0 rgba(0,255,174,0.10)', background: '#fff', fontFamily: 'Montserrat, Arial, sans-serif' }}>
       <TableContainer>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Category</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell align="right">Amount</TableCell>
-              <TableCell align="right">Actions</TableCell>
+            <TableRow sx={{ background: '#388e3c' }}>
+              <TableCell sx={{ color: '#fff', fontWeight: 700 }}>Date</TableCell>
+              <TableCell sx={{ color: '#23272f', fontWeight: 700 }}>Description</TableCell>
+              <TableCell sx={{ color: '#23272f', fontWeight: 700 }}>Category</TableCell>
+              <TableCell sx={{ color: '#23272f', fontWeight: 700 }}>Type</TableCell>
+              <TableCell align="right" sx={{ color: '#23272f', fontWeight: 700 }}>Amount</TableCell>
+              <TableCell align="right" sx={{ color: '#23272f', fontWeight: 700 }}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {transactions
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((transaction) => (
-                <TableRow key={transaction.id}>
-                  <TableCell>{format(new Date(transaction.date), 'MMM dd, yyyy')}</TableCell>
+              .map((transaction, idx) => (
+                <TableRow key={transaction.id} hover sx={{ backgroundColor: idx % 2 === 0 ? '#f7f7f7' : '#ececec', transition: 'background 0.2s' }}>
+                  <TableCell>{format(new Date(transaction.date), 'yyyy-MM-dd')}</TableCell>
                   <TableCell>{transaction.description}</TableCell>
                   <TableCell>{transaction.category}</TableCell>
-                  <TableCell>{transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</TableCell>
+                  <TableCell>{transaction.type}</TableCell>
                   <TableCell 
                     align="right" 
                     sx={{ 
@@ -111,3 +111,4 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions, onDelet
 };
 
 export default TransactionList;
+

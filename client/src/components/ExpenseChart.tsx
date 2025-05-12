@@ -41,9 +41,16 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ transactions }) => {
   }
 
   return (
-    <Card>
+    <Card sx={{
+      background: '#fff',
+      color: '#23272f',
+      borderRadius: 8,
+      boxShadow: '0 8px 32px 0 rgba(0,255,174,0.10)',
+      mb: 4,
+      fontFamily: 'Montserrat, Arial, sans-serif',
+    }}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom sx={{ color: '#23272f', fontWeight: 900 }}>
           Expenses by Category
         </Typography>
         <Box sx={{ height: 300, width: '100%' }}>
@@ -57,7 +64,7 @@ const ExpenseChart: React.FC<ExpenseChartProps> = ({ transactions }) => {
                 bottom: 5,
               }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#fff6" />
               <XAxis 
                 dataKey="name" 
                 tickFormatter={formatCategory}

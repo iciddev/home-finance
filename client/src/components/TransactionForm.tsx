@@ -55,8 +55,8 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ onSubmit, initialValu
   };
 
   return (
-    <Paper elevation={2} sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom>
+    <Paper elevation={2} sx={{ p: 5, borderRadius: 8, background: '#fff', mb: 4, fontFamily: 'Montserrat, Arial, sans-serif' }}>
+      <Typography variant="h6" gutterBottom sx={{ color: '#23272f', fontWeight: 900 }}>
         Add New Transaction
       </Typography>
       <form onSubmit={handleSubmit}>

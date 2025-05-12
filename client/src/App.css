@@ -13,6 +13,15 @@
   }
 }
 
+.App-body {
+  margin: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #fff;
+  color: #23272f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

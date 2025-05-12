@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme, CssBaseline, Container, Box, Typography } from '@mui/material';
+import './fonts.css';
 import { teal, pink } from '@mui/material/colors';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,14 +15,86 @@ import ExpenseChart from './components/ExpenseChart';
 
 const theme = createTheme({
   palette: {
-    primary: teal,
-    secondary: pink,
     mode: 'light',
+    primary: {
+      main: '#388e3c', // Solid green
+      contrastText: '#fff',
+    },
+    secondary: {
+      main: '#fff',
+      contrastText: '#23272f',
+    },
+    background: {
+      default: '#fff',
+      paper: '#fff',
+    },
+    success: {
+      main: '#388e3c',
+    },
+    error: {
+      main: '#ff1744',
+    },
+    info: {
+      main: '#2979ff',
+    },
+    warning: {
+      main: '#ffc400',
+    },
+    text: {
+      primary: '#23272f',
+      secondary: '#4f4f4f',
+    },
+  },
+  shape: {
+    borderRadius: 24,
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: 'Montserrat, Arial, sans-serif',
     h4: {
-      fontWeight: 600,
+      fontWeight: 900,
+      letterSpacing: '-0.02em',
+      fontSize: '2.5rem',
+    },
+    h6: {
+      fontWeight: 700,
+      fontSize: '1.25rem',
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 700,
+      fontSize: '1rem',
+    },
+    body1: {
+      fontWeight: 400,
+      fontSize: '1.1rem',
+    },
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 4px 32px 0 rgba(0,0,0,0.10)',
+          borderRadius: 24,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 24,
+          boxShadow: '0 8px 32px 0 rgba(0,255,174,0.10)',
+          background: '#fff',
+          color: '#23272f',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 20,
+          fontWeight: 700,
+        },
+      },
     },
   },
 });
